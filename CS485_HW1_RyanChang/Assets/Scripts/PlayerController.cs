@@ -8,13 +8,16 @@ public class PlayerController : MonoBehaviour {
     public float speed;
     public Text countText;
     public Text winText;
+    public AudioSource pickupSFX;
 
     private Rigidbody rb;
     private int count;
+    private AudioSource source;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
+        pickupSFX = GetComponent<AudioSource>();
         count = 0;
         setCountText();
         winText.text = "";
@@ -32,10 +35,12 @@ public class PlayerController : MonoBehaviour {
 
     void OnTriggerEnter(Collider other)
     {
-        //Destroy(other.gameObject);
+        Destroy(other.gameObject);
 
         if (other.gameObject.CompareTag("Pickup"))
-        {            
+        {
+            pickupSFX.Play();
+
             other.gameObject.SetActive(false);
             count++;
             setCountText();
